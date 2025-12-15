@@ -6,44 +6,51 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- Pixel Font -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
 html, body { height: 100%; margin: 0; }
 body {
   display: grid;
-  place-items: center;          /* immer exakt mittig */
-  background: #000000;
+  place-items: center;
+  background: #000;
   color: white;
   font-family: Arial, sans-serif;
   text-align: center;
-  overflow-x: hidden;           /* kein seitliches Rutschen */
+  overflow-x: hidden;
 }
 
 #gameContainer {
   width: 90%;
   max-width: 700px;
-  padding: 20px;
-  background: #000000;
-  border-radius: 15px;
+  padding: 25px;
+  background: #000;
+  border-radius: 18px;
   box-shadow: 0 0 25px rgba(255,255,255,0.08);
-  box-sizing: border-box;       /* stabil */
+  box-sizing: border-box;
 }
 
 h1 {
+  font-family: 'Press Start 2P', cursive;
   font-size: 1.8em;
   margin-bottom: 20px;
   color: #4dd0e1;
-  font-family: 'Press Start 2P', cursive;
+  text-shadow: 0 0 5px #4dd0e1;
 }
 
 #task {
-  font-size: 1.4em;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2em; /* Zahlen etwas kleiner */
   margin: 20px 0;
   min-height: 50px;
-  font-family: 'Press Start 2P', cursive;
-  word-break: keep-all;         /* keine Hyphen */
+  word-break: keep-all;
+  text-shadow: 0 0 5px #ffffff;
+}
+
+/* Operatoren hervorheben */
+#task span.operator {
+  color: #ffeb3b;
+  text-shadow: 0 0 8px #ffeb3b;
 }
 
 #inputContainer {
@@ -56,12 +63,21 @@ h1 {
   width: 80%;
   max-width: 400px;
   font-size: 1em;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 12px;
   border: none;
   margin-bottom: 15px;
   text-align: center;
   box-sizing: border-box;
+  background: #111;
+  color: white;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  transition: all 0.2s;
+}
+
+#answer:focus {
+  outline: none;
+  box-shadow: 0 0 15px #4dd0e1;
 }
 
 button {
@@ -73,16 +89,32 @@ button {
   color: white;
   cursor: pointer;
   transition: all 0.2s;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
 
-button:hover { background: #4caf50; }
+button:hover {
+  background: #4caf50;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #4dd0e1;
+}
 
-#message { margin-top: 20px; font-size: 1em; min-height: 40px; }
-#score { margin-top: 15px; font-size: 1em; color: #ffeb3b; }
+#message {
+  margin-top: 20px;
+  font-size: 1em;
+  min-height: 40px;
+  text-shadow: 0 0 5px #ff0000;
+}
+
+#score {
+  margin-top: 15px;
+  font-size: 1em;
+  color: #ffeb3b;
+  text-shadow: 0 0 5px #ffeb3b;
+}
 
 @media (max-width: 768px) {
   h1 { font-size: 1.4em; }
-  #task { font-size: 1.2em; }
+  #task { font-size: 1em; }
   #answer { font-size: 0.9em; }
   button { font-size: 0.9em; padding: 10px 20px; }
 }
@@ -92,7 +124,7 @@ button:hover { background: #4caf50; }
 <body>
 
 <div id="gameContainer">
-  <h1>🧮</h1>
+  <h1>Math Challenge 🧮</h1>
 
   <div id="task">Loading...</div>
 
@@ -116,6 +148,11 @@ let score = 0;
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Funktion, um Operatoren hervorzuheben
+function highlightOperators(text) {
+  return text.replace(/[\-\+\×\÷]/g, m => `<span class="operator">${m}</span>`);
 }
 
 function generateTask() {
@@ -146,7 +183,7 @@ function generateTask() {
     text = `(${a} − ${b}) ÷ ${c}`;
   }
 
-  document.getElementById("task").textContent = `${text} = ?`;
+  document.getElementById("task").innerHTML = highlightOperators(text) + " = ?";
   document.getElementById("answer").value = "";
   document.getElementById("answer").focus();
 }
@@ -161,8 +198,10 @@ function checkAnswer() {
     score++;
     message.textContent = "✅ Correct!";
     document.getElementById("score").textContent = `Score: ${score}`;
+    message.style.color = "#4caf50";
   } else {
     message.textContent = `❌ Wrong! Correct was ${correctAnswer}`;
+    message.style.color = "#ff5252";
   }
 
   setTimeout(() => {
