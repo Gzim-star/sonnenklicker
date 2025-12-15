@@ -6,16 +6,14 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
 <style>
 html, body { height: 100%; margin: 0; }
 body {
   display: grid;
-  place-items: center;
+  place-items: center;          /* immer exakt mittig */
   background: #000000;
   color: white;
-  font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif; /* normale Schrift */
   text-align: center;
   overflow-x: hidden;
 }
@@ -23,10 +21,10 @@ body {
 #gameContainer {
   width: 90%;
   max-width: 700px;
-  padding: 20px;
+  padding: 25px;
   background: #000000;
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(255,255,255,0.08);
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.1);
   box-sizing: border-box;
 }
 
@@ -34,19 +32,13 @@ h1 {
   font-size: 1.8em;
   margin-bottom: 20px;
   color: #4dd0e1;
-  font-family: 'Press Start 2P', cursive;
 }
 
 #task {
   font-size: 1.4em;
   margin: 20px 0;
   min-height: 50px;
-  font-family: 'Press Start 2P', cursive;
-  word-break: keep-all;
-}
-
-#task .minus {
-  color: white;
+  word-break: keep-all;         
 }
 
 #inputContainer {
@@ -59,29 +51,42 @@ h1 {
   width: 80%;
   max-width: 400px;
   font-size: 1em;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 12px;
   border: none;
   margin-bottom: 15px;
   text-align: center;
   box-sizing: border-box;
+  background: #111;
+  color: white;
 }
 
 button {
   padding: 12px 25px;
   font-size: 1em;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #2e7d32;
   color: white;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-button:hover { background: #4caf50; }
+button:hover {
+  background: #4caf50;
+}
 
-#message { margin-top: 20px; font-size: 1em; min-height: 40px; }
-#score { margin-top: 15px; font-size: 1em; color: #ffeb3b; }
+#message {
+  margin-top: 20px;
+  font-size: 1em;
+  min-height: 40px;
+}
+
+#score {
+  margin-top: 15px;
+  font-size: 1em;
+  color: #ffeb3b;
+}
 
 @media (max-width: 768px) {
   h1 { font-size: 1.4em; }
@@ -95,7 +100,7 @@ button:hover { background: #4caf50; }
 <body>
 
 <div id="gameContainer">
-  <h1>🧮</h1>
+  <h1>Math Challenge 🧮</h1>
 
   <div id="task">Loading...</div>
 
@@ -117,11 +122,6 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Funktion, die Minuszeichen weiß macht
-function highlightMinus(text) {
-  return text.replace(/−|-/g, '<span class="minus">−</span>');
-}
-
 function generateTask() {
   const pattern = randomInt(1, 3);
   let a, b, c, text;
@@ -131,7 +131,7 @@ function generateTask() {
     b = randomInt(4, 15);
     c = randomInt(5, 40);
     correctAnswer = (a * b) - c;
-    text = `(${a} × ${b}) − ${c}`;
+    text = `(${a} × ${b}) - ${c}`;
   }
 
   if (pattern === 2) {
@@ -147,10 +147,10 @@ function generateTask() {
     correctAnswer = randomInt(5, 20);
     b = randomInt(5, 30);
     a = (correctAnswer * c) + b;
-    text = `(${a} − ${b}) ÷ ${c}`;
+    text = `(${a} - ${b}) ÷ ${c}`;
   }
 
-  document.getElementById("task").innerHTML = highlightMinus(text) + " = ?";
+  document.getElementById("task").textContent = `${text} = ?`;
   document.getElementById("answer").value = "";
   document.getElementById("answer").focus();
 }
@@ -165,8 +165,10 @@ function checkAnswer() {
     score++;
     message.textContent = "✅ Correct!";
     document.getElementById("score").textContent = `Score: ${score}`;
+    message.style.color = "#4caf50";
   } else {
     message.textContent = `❌ Wrong! Correct was ${correctAnswer}`;
+    message.style.color = "#ff5252";
   }
 
   setTimeout(() => {
