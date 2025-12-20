@@ -242,7 +242,7 @@ function aiTurn(){
   for(let w of possible){const next=w.slice(-1).toLowerCase(); const opts=wordList.filter(p=>p[0].toLowerCase()===next&&!usedWords.includes(p)); if(opts.length>max){max=opts.length; best=w;}}
   usedWords.push(best); currentWord=best; document.getElementById('wordDisplay').textContent=`${currentWord}`;
   wordScore++; if(wordScore>=6){ setTimeout(startTicTacToe,800);}
- 
+}
 
 // ========================== TIC TAC TOE ==========================
 function startTicTacToe(){
