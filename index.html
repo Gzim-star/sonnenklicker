@@ -194,16 +194,7 @@ function startWordChain(){
   "Cognition","Spectrum","Vector","Matrix","Anomaly",
   "Threshold","Resonance","Asymmetry","Continuum","Parable"];
 }
-  const forbidden = [
-  "dog","cat","rat","ant","cow","lion","tiger","bear",
-  "apple","tree","hat","egg","fish"
-];
-
-if(forbidden.includes(word.toLowerCase())){
-  message.textContent = "❌ Too basic";
-  return;
-}
-
+  
 function playWord(){
   const input=document.getElementById('playerWord');
   let word=input.value.trim(); word=word.charAt(0).toUpperCase()+word.slice(1);
@@ -215,12 +206,21 @@ if(word.length < 6){
   return;
 }
 
-// Kein gleicher Endbuchstabe wie davor
+  const forbidden = [
+  "dog","cat","rat","ant","cow","lion","tiger","bear",
+  "apple","tree","hat","egg","fish"
+];
+
+if(forbidden.includes(word.toLowerCase())){
+  message.textContent = "❌ Too basic";
+  return;
+}
+  // Kein gleicher Endbuchstabe wie davor
 const lastTwo = currentWord.slice(-2).toLowerCase();
 if(word.slice(-1).toLowerCase() === lastTwo[0]){
   message.textContent = "❌ Weak ending";
   return;
-
+  
 }
   const lastChar=currentWord.slice(-1).toLowerCase();
   const reversed=currentWord.split("").reverse().join("").toLowerCase();
