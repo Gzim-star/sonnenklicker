@@ -241,23 +241,8 @@ function aiTurn(){
   let best=possible[0]; let max=-1;
   for(let w of possible){const next=w.slice(-1).toLowerCase(); const opts=wordList.filter(p=>p[0].toLowerCase()===next&&!usedWords.includes(p)); if(opts.length>max){max=opts.length; best=w;}}
   usedWords.push(best); currentWord=best; document.getElementById('wordDisplay').textContent=`${currentWord}`;
-  wordScore++;
-  if(wordScore>=6){
-    const container = document.getElementById('gameContainer'); 
-    
-    container.innerHTML = `
-      <p style="
-        opacity:0.6;
-        font-size:0.9em;
-        font-family: 'Press Start 2P', cursive;
-        line-height:1.6;
-      ">
-        Ihr wollt mein Denken?<br>
-        Sucht ihn irgendwo.
-      </p>
-    `;
- 
-    setTimeout(startTicTacToe, 2000);
+  wordScore++;if(wordScore>=6){const container = document.getElementById('gameContainer'); 
+  container.innerHTML = `<p style="opacity:0.6;font-size:0.9em;font-family: 'Press Start 2P', cursive;line-height:1.6;">Ihr wollt mein Denken?<br>Sucht ihn irgendwo.</p>`;setTimeout(startTicTacToe, 2000);
  }
 
 // ========================== TIC TAC TOE ==========================
