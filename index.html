@@ -232,8 +232,14 @@ function aiTurn(){
   if(possible.length===0){ const remaining=wordList.filter(w=>!usedWords.includes(w)); if(remaining.length>0){const r=remaining[Math.floor(Math.random()*remaining.length)]; usedWords.push(r); currentWord=r; document.getElementById('wordDisplay').textContent=`${currentWord}`;} return; }
   let best=possible[0]; let max=-1;
   for(let w of possible){const next=w.slice(-1).toLowerCase(); const opts=wordList.filter(p=>p[0].toLowerCase()===next&&!usedWords.includes(p)); if(opts.length>max){max=opts.length; best=w;}}
-  usedWords.push(best); currentWord=best; document.getElementById('wordDisplay').textContent=`${currentWord}`;
-  wordScore++; if(wordScore>=6){ setTimeout(startTicTacToe,800);}
+  usedWords.push(best); currentWord=best; document.getElementById('wordDisplay').textContent=`${
+wordScore++;
+
+if(wordScore >= 6){
+  const msg = document.getElementById('message');
+  msg.textContent = 'Ihr wollt mein Denken? Sucht ihn irgendwo.';
+
+  setTimeout(startTicTacToe, 2000);
 }
 
 // ========================== TIC TAC TOE ==========================
