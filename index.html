@@ -177,17 +177,39 @@ let mathTimer=30, mathTimerInterval;
 
 // ========================== WORD CHAIN ==========================
 function startWordChain(){
+  <div id="wordHint" style="
+  margin-top:15px;
+  font-family:'Press Start 2P', cursive;
+  font-size:0.7em;
+  color:#4dd0e1;
+  min-height:20px;
+  opacity:0;
+  transition: opacity 0.5s;
+"></div>
   stage='word';
   const container=document.getElementById('gameContainer');
   container.innerHTML=`
-    <h1></h1>
-    <div id="wordDisplay">Apple</div>
-    <div id="inputContainer">
-      <input type="text" id="playerWord" placeholder="Type your word here" autocomplete="off" autocapitalize="none">
-      <button onclick="playWord()">OK</button>
-    </div>
-    <div id="message"></div>
-  `;
+      <h1></h1>
+  <div id="wordDisplay">Apple</div>
+
+  <div id="inputContainer">
+    <input type="text" id="playerWord" placeholder="Type your word here">
+    <button onclick="playWord()">OK</button>
+  </div>
+
+  <div id="message"></div>
+
+  <!-- 🧠 Brain Hint -->
+  <div id="wordHint" style="
+    margin-top:15px;
+    font-family:'Press Start 2P', cursive;
+    font-size:0.7em;
+    color:#ffc107;
+    min-height:18px;
+    opacity:0;
+    transition: opacity 0.5s;
+  "></div>
+`;
   currentWord='Apple'; usedWords=[currentWord];
   wordList=["Algorithm","Entropy","Hypothesis","Paradox","Labyrinth",
   "Quantum","Syntax","Recursion","Neural","Topology",
@@ -205,7 +227,17 @@ if(word.length < 6){
   message.textContent = "❌ Wrong";
   return;
 }
+function showWordChainHint(){
+  const hint = document.getElementById('wordHint');
+  if(!hint) return;
 
+  hint.textContent = "🧠 Nur die richtigen Wörter bringen dich weiter.";
+  hint.style.opacity = "1";
+
+  setTimeout(()=>{
+    hint.style.opacity = "0";
+  }, 3000); // nach 3 Sekunden weg
+}
 
   // Kein gleicher Endbuchstabe wie davor
 const lastTwo = currentWord.slice(-2).toLowerCase();
@@ -231,6 +263,12 @@ function aiTurn(){
     w => w[0].toLowerCase() === lastChar && !usedWords.includes(w)
   );
 
+if(possible.length === 0){
+  // 🤖 hat quasi keine sichtbaren Wörter mehr
+
+  setTimeout(showWordChainHint, 5000); // ⏱ nach 5 Sekunden Hinweis
+  return;
+}
   if(possible.length === 0){
     const remaining = wordList.filter(w => !usedWords.includes(w));
     if(remaining.length > 0){
@@ -360,13 +398,29 @@ function startChromaticTrial(){
   stage='chromatic';
   const container=document.getElementById('gameContainer');
   container.innerHTML=`
-    <h1></h1>
+  <h1></h1>
+
     <div id="grid"></div>
+
+    <div id="chromaticText" style="
+      margin-top:15px;
+      font-family:'Press Start 2P', cursive;
+      font-size:0.7em;
+      color:#4dd0e1;
+      min-height:20px;
+      opacity:0;
+      transition: opacity 0.5s;
+    "></div>
+
     <div id="timer">60</div>
   `;
+
   createChromaticGrid();
   startChromaticTimer();
-}
+
+  // 👉 Text nach 10 Sekunden anzeigen
+  setTimeout(showChromaticMessage, 10000);
+}  
 
 function createChromaticGrid(){
   const grid = document.getElementById('grid');
@@ -456,7 +510,18 @@ function startChromaticTimer(){
   }, 1000);
 }
 
-function restartGame(){
+function showChromaticMessage(){
+  var text = document.getElementById('chromaticText');
+  if(!text) return;
+
+  text.textContent = "Hello 👀 have you found the color?";
+  text.style.opacity = "1";
+
+  setTimeout(function(){
+    text.style.opacity = "0";
+  }, 3000);
+}
+    function restartGame(){
   clearInterval(chromaticTimerInterval);
   clearInterval(mathTimerInterval);
   clearTimeout(uniformTimeout);
