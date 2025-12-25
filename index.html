@@ -24,22 +24,13 @@ body {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
   #tipButton {
-   position: fixed;
+  position: fixed;
   bottom: 20px;
   right: 20px;
-
   background: none;
   border: none;
-
-  font-family: 'Press Start 2P', cursive; /* 👈 gleicher Font */
-  font-size: 22px;                       /* nah am Original */
-  letter-spacing: 1px;
-
-  color: #ffc107;                        /* 👈 gleiche Hint-Farbe */
-  text-shadow:
-    0 0 6px rgba(255,193,7,0.8),
-    0 0 12px rgba(255,193,7,0.5);         /* 👈 Glow wie Hint */
-
+  color: white;
+  font-size: 28px;
   cursor: pointer;
   z-index: 1000;
 }
@@ -62,11 +53,11 @@ body {
   border-radius: 12px;
   width: 80%;
   max-width: 400px;
-  color: #d50000;
+  color: white;
   text-align: left;
 }
 .close {
-  color: #d50000;
+  color: white;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -111,7 +102,13 @@ button:hover { background: #00000000; }
 </div>
   <!-- Tip Button -->
 <button id="tipButton">❗️</button>
-
+/* Alle Hint-Texte = gleicher Font wie ❗️ */
+.modal-content,
+#wordHint,
+#chromaticText,
+#chromaticWinText {
+  font-family: 'Press Start 2P', cursive;
+}
 <!-- Modal für die Tipps -->
 <div id="tipModal" class="modal">
   <div class="modal-content">
@@ -572,7 +569,6 @@ function showChromaticWin(){
   }, 5000); // ⏱ nach 5 Sekunden zurück zum Start
 }
 
-
 </script>
 </body>
-</html>   
+</html>  
