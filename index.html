@@ -328,7 +328,7 @@ function playWord(){
   const message=document.getElementById('message');
   if(!word) return;
   // Mindestlänge
-if(word.length < 6){
+if(word.length < 10){
   showWordError("❌ Wrong!");
   return;
 }
@@ -344,7 +344,7 @@ if(word.slice(-1).toLowerCase() === lastTwo[0]){
   const lastChar=currentWord.slice(-1).toLowerCase();
   const reversed=currentWord.split("").reverse().join("").toLowerCase();
   if(word[0].toLowerCase()!==lastChar){showWordError("❌ Wrong!");return;}
-  if(word.toLowerCase()===currentWord.toLowerCase()){showWordError("❌ Repeat!");return;}
+  if(word.toLowerCase()===currentWord.toLowerCase()){showWordError("");return;}
   if(word.toLowerCase()===reversed){showWordError("❌ Reversed!");return;}
   if(usedWords.map(w=>w.toLowerCase()).includes(word.toLowerCase())){showWordError("❌ Already used!");return;}
   usedWords.push(word); currentWord=word;
